@@ -31,7 +31,7 @@ const FormField: React.FC<FormFieldProps> = ({
       </Label>
       {children}
       {error && (
-        <p className="text-sm text-destructive animate-fade-in">
+        <p role="alert" className="text-sm text-destructive animate-fade-in">
           {error}
         </p>
       )}

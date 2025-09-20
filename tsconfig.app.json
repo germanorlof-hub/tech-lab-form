@@ -12,7 +12,8 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
+    "types": ["vitest/globals", "vite/client"],
 
     /* Linting */
     "strict": false,

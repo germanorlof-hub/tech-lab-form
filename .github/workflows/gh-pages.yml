@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+# Trigger deployment on pushes to main (adjust if your default branch is 'master' or something else)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required for publishing to gh-pages using GITHUB_TOKEN
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site (Vite) with correct base for GitHub Pages
+        # We pass the base explicitly so production assets point at /<repo>/
+        run: npm run build -- --base /tech-lab-form/
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          # Optional identity info:
+          # user_name: github-actions[bot]
+          # user_email: 41898282+github-actions[bot]@users.noreply.github.com
